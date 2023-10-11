@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>モニター</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        var socket = io.connect(
+          "http://" + document.domain + ":" + location.port
+        );
+
+        socket.on("receive_visit", function (data) {
+          const messageBox2 = document.getElementById("visit-messages");
+          messageBox2.innerHTML += "<p><b>訪問者：</b> " + data.message + "</p>";
+        });
+
+        document
+          .getElementById("speak-button")
+          .addEventListener("click", function () {
+            const userMessage = document.getElementById("speak-message").value;
+            socket.emit("speak_start", {message: userMessage});
+
+            document.getElementById("speak-message").value = "";
+          });
+      });
+    </script>
+
+    <h2>モニター</h2>
+    <div id="visit-messages"></div>
+    <textarea id="speak-message"></textarea>
+    <button id="speak-button">Speak</button>
+  </body>
+</html>
