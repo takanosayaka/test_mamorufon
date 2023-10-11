@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
-site1_bp = Blueprint('site1', __name__, url_prefix='/site1')
+intercom_bp = Blueprint('intercom', __name__, url_prefix='/intercom')
 
-@site1_bp.route('/')
-def hello():
-  return render_template('site1/hello1.html')
+@intercom_bp.route('/')
+def display():
+  return render_template('intercom/home.html')

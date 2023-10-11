@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
-site2_bp = Blueprint('site2', __name__, url_prefix='/site2')
+monitor_bp = Blueprint('monitor', __name__, url_prefix='/monitor')
 
-@site2_bp.route('/')
-def hello():
-  return render_template('site2/hello2.html')
+@monitor_bp.route('/')
+def display():
+  return render_template('monitor/home.html')

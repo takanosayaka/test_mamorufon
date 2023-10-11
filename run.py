@@ -6,11 +6,11 @@ from flask_socketio import SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-from view1 import site1_bp
-app.register_blueprint(site1_bp)
+from view1 import intercom_bp
+app.register_blueprint(intercom_bp)
 
-from view2 import site2_bp
-app.register_blueprint(site2_bp)
+from view2 import monitor_bp
+app.register_blueprint(monitor_bp)
 
 # HTMLページに対するルーティング
 @app.route('/')
