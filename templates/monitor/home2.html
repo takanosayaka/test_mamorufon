@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>モニター</title>
+    <style>
+      video {
+        height: 400px;
+        background-color: black;
+        text-align: center;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  </head>
+  <body>
+    <h2>モニター</h2>
+    <div>
+      <video id="video"></video>
+    </div>
+    <button id="speak-button">応答</button>
+
+    <script>
+      //socket通信の処理
+      document.addEventListener("DOMContentLoaded", (event) => {
+        // socket通信開始
+        var socket = io.connect(
+          "http://" + document.domain + ":" + location.port
+        );
+
+        // 訪問者からのメッセージを受け取る
+        socket.on("receive_visit_message", function (data) {
+          console.log(data.message);
+          // 訪問者がインターフォンを鳴らしたので，カメラONにする
+          const video = document.getElementById('video');
+          navigator.mediaDevices
+            .getUserMedia({
+              video: true,
+              audio: false,
+            })
+            .then((stream) => {
+              video.srcObject = stream;
+              video.play();
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+            });
+
+        document
+          .getElementById("speak-button")
+          .addEventListener("click", function () {
+            socket.emit("response_message", {message: "居住者<どうも！"});
+          });
+      });
+    </script>
+  </body>
+</html>

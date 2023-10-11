@@ -4,4 +4,4 @@ intercom_bp = Blueprint('intercom', __name__, url_prefix='/intercom')
 
 @intercom_bp.route('/')
 def display():
-  return render_template('intercom/home.html')
+  return render_template('intercom/home1.html')

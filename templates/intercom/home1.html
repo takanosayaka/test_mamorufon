@@ -7,29 +7,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
   </head>
   <body>
+    <h2>インターフォン</h2>
+    <button id="visit-button">訪問</button>
+
     <script>
       document.addEventListener("DOMContentLoaded", (event) => {
+        // socket通信開始
         var socket = io.connect(
           "http://" + document.domain + ":" + location.port
         );
 
-        socket.on("speak_message", function (data) {
-          const messageBox = document.getElementById("response-messages");
-          messageBox.innerHTML += "<p><b>居住者：</b> " + data.message + "</p>";
+        // 居住者からのメッセージを受け取る
+        socket.on("recieve_resident_message", function (data) {
+          console.log(data.message);
         });
 
+        // 訪問ボタンを押した時の挙動
         document
           .getElementById("visit-button")
           .addEventListener("click", function () {
-            const userMessage = "こんにちは！";
+            const userMessage = "訪問者<こんにちは！";
             socket.emit("visit_message", {message: userMessage});
           });
       });
     </script>
-
-    <h2>インターフォン</h2>
-    <div id="response-messages"></div>
-    <button id="visit-button">Visit</button>
   </body>
 </html>
 

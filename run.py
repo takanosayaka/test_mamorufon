@@ -6,10 +6,10 @@ from flask_socketio import SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-from view1 import intercom_bp
+from view_intercom import intercom_bp
 app.register_blueprint(intercom_bp)
 
-from view2 import monitor_bp
+from view_monitor import monitor_bp
 app.register_blueprint(monitor_bp)
 
 # HTMLページに対するルーティング
@@ -21,15 +21,15 @@ def home():
 @socketio.on('visit_message')
 def visit_recept(data):
   visit_message = data["message"]
-  # クライアント（インターフォン）に対してイベントを送る
-  socketio.emit('receive_visit', {'message': visit_message})
+  # モニターに対してイベントを送る
+  socketio.emit('receive_visit_message', {'message': visit_message})
 
 # 会話ボタン押下時に実行
-@socketio.on('speak_start')
-def speak_recept(data):
-  speak_message = data["message"]
-  # クライアントに対してイベントを送る
-  socketio.emit('speak_message', {'message': speak_message})
+@socketio.on('response_message')
+def response_recept(data):
+  resident_message = data["message"]
+  # インターフォンに対してイベントを送る
+  socketio.emit('recieve_resident_message', {'message': resident_message})
 
 if __name__ == '__main__':
   socketio.run(app, port=8080)
