@@ -7,7 +7,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
   </head>
   <body>
+    <div>
+      <video id="video"></video>
+    </div>
+
     <script>
+      //socket通信の処理
       document.addEventListener("DOMContentLoaded", (event) => {
         var socket = io.connect(
           "http://" + document.domain + ":" + location.port
@@ -27,6 +32,21 @@
             document.getElementById("speak-message").value = "";
           });
       });
+
+      //カメラ映像の処理
+      const video = document.getElementById('video');
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false,
+        })
+        .then((stream) => {
+          video.srcObject = stream;
+          video.play();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     </script>
 
     <h2>モニター</h2>
