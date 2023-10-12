@@ -27,7 +27,6 @@
         var socket = io.connect(
           "http://" + document.domain + ":" + location.port
         );
-
         // 訪問者からのメッセージを受け取る
         socket.on("receive_visit_message", function (data) {
           console.log(data.message);
@@ -47,6 +46,7 @@
             });
             });
 
+        // 応答ボタンを押した時の挙動
         document
           .getElementById("speak-button")
           .addEventListener("click", function () {

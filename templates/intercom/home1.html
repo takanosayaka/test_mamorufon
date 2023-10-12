@@ -16,7 +16,6 @@
         var socket = io.connect(
           "http://" + document.domain + ":" + location.port
         );
-
         // 居住者からのメッセージを受け取る
         socket.on("recieve_resident_message", function (data) {
           console.log(data.message);
